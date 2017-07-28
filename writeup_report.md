@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 
 [image1]: ./images/Nvidia-cnn-architecture.png "Model Visualization"
 [image2]: ./images/center-line-driving.jpg "center line driving image"
-[image3]: ./images/center-line-driving2.png "center line driving image2"
+[image3]: ./images/center-line-driving2.jpg "center line driving image2"
 [image4]: ./images/center-line-driving2-flip.png "center line driving image flipped"
 [image5]: ./images/data-distribution.png "data distribution"
 
@@ -32,7 +32,8 @@ My solution includes the following required files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network 
-* writeup_report.md or writeup_report.pdf summarizing the results
+* writeup_report.md summarizing the results
+
 My solution includes the following additional files:
 * video.py containing the script to create a video from the images the agent sees
 * run1.mp4 is a video created from the images that the agent sees in the autonomous mode 
@@ -51,7 +52,7 @@ The model.py file contains the code for training and saving the convolution neur
 
 ####1. An appropriate model architecture has been employed
 
-My model resembles architecture used in the [Nvidia end to end self-driving paper]#(https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/).
+My model resembles architecture used in the [Nvidia end to end self-driving paper](https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/).
 The architecture consists of five convolution neural network with three 5x5 filter sizes and two 3X3 filter sizes. The depths are between 24 and 64 (model.py lines 194-198). 
 The activation functions for all conv layers are ELU. The data is normalized in the model using a Keras lambda layer (model.py code line 193). The model contains three fully
 connected layers followed by the output layer (model.py code 202-206).  
@@ -93,7 +94,7 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 The final model architecture (model.py lines 190-206) consisted of a convolution neural network illustrated below 
 
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
+Here is a visualization of the architecture 
 
 ![Model architecture][image1]
 
