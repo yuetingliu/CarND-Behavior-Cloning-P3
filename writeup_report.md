@@ -15,9 +15,8 @@ The goals / steps of this project are the following:
 
 [image1]: ./images/Nvidia-cnn-architecture.png "Model Visualization"
 [image2]: ./images/center-line-driving.jpg "center line driving image"
-[image3]: ./images/center-line-driving2.jpg "center line driving image2"
-[image4]: ./images/center-line-driving2-flip.png "center line driving image flipped"
-[image5]: ./images/data-distribution.png "data distribution"
+[image3]: ./images/center-line-driving-flip.png "center line driving image flipped"
+[image4]: ./images/data-distribution.png "data distribution"
 
 
 ## Rubric Points
@@ -105,15 +104,14 @@ I used only Udacity data. Here is an example image of center lane driving:
 ![center line driving image][image2]
 
 
-To augment the data sat, I also flipped images and angles thinking that this would simply gain more data. For example, here are two images. The left is the original image, and the right is the flipped image:
+To augment the data sat, I also flipped images and angles thinking that this would simply gain more data. For example, here is the image. The left is the original image, and the right is the flipped image:
 
-![center line driving image2][image3]
-![center line driving image flipped][image4]
+![center line driving image flipped][image3]
 
 
 After the collection process, I had 32144 number of data points. But the distribution of the data was pretty bad, which was responsible for the unsuccessful autonomous driving. 
 I then preprocessed this data by trimming some data to make the distribution more reasonable. The following image show the distribution before and after trimming (left: original distribution; right: after trimming)
-![data distribution][image5]
+![data distribution][image4]
 
 I finally randomly shuffled the data set and put 5% of the data into a validation set. 
 
