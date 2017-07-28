@@ -12,7 +12,7 @@ import cv2
 from matplotlib import pyplot as plt
 
 
-# In[4]:
+# In[2]:
 
 
 # Define a function for loading images and steering angles
@@ -61,9 +61,9 @@ def load_data(data):
                 images.append(img)
                 steers.append(float(line[3]))
                 images.append(img_left)
-                steers.append(0.75)
+                steers.append(0.9)
                 images.append(img_right)
-                steers.append(-0.75)
+                steers.append(-0.9)
                 # Flip the middle images 
                 img2 = np.fliplr(img)
                 images.append(img2)
@@ -72,7 +72,7 @@ def load_data(data):
     return images, steers
 
 
-# In[5]:
+# In[3]:
 
 
 # shuffle the images and split into training and validation sets
@@ -99,10 +99,10 @@ def generator_(X, y, batch_size = 64):
             yield X_batch, y_batch
 
 
-# In[12]:
+# In[4]:
 
 
-def trim_data(images, steers, nb_bins=30, cutoff=2000):
+def trim_data(images, steers, nb_bins=40, cutoff=2000):
     """Make the training data distribution less steep by discarding some data
     
     Params: 
@@ -135,52 +135,55 @@ def trim_data(images, steers, nb_bins=30, cutoff=2000):
     return images, steers
 
 
-# In[10]:
+# In[6]:
 
 
 # Get the images and steering angle data
 images, steers = [], []
-for data in ['./data', './data2', './data3']:
-    image, steer = load_data(data)
-    images.extend(image)
-    steers.extend(steer)
+image, steer = load_data('./data')
+images.extend(image)
+steers.extend(steer)
     
 
 
-# In[11]:
+# In[7]:
 
-# Trim the samples
+
 trimmed_images, trimmed_steers = trim_data(images, steers) 
 
 
-# In[13]:
+# In[9]:
 
-# plot the distribution of samples for before and after trimming
+
+# Visualize the steering angles distribution
 fig, axes = plt.subplots(1, 2, figsize=(8, 3))
-axes[0].hist(steers, bins=30)
-axes[1].hist(trimmed_steers,bins=30)
+axes[0].hist(steers, bins=40)
+# axes[0].set_ylim(0, 5000)
+axes[1].hist(trimmed_steers,bins=40)
+axes[1].set_ylim(0, 1200)
 plt.subplots_adjust(wspace=0.5)
-# plt.ylim(0, 2000)
+
 plt.show()
+fig.savefig('Data_distribution.png', dpi=300)
 
 
-# In[14]:
+# In[33]:
 
 
 # Split the data into training and validation sets
 train_images, train_steers, valid_images, valid_steers = train_valid_split(trimmed_images, trimmed_steers)
 
 
-# In[15]:
+# In[34]:
 
 
-from keras.models import Sequential, load_model
+from keras.models import Sequential
 from keras.layers import Flatten, Dense
 from keras.layers import Convolution2D, Lambda, Cropping2D
 from keras.layers import Dropout
 
 
-# In[16]:
+# In[35]:
 
 
 # The model is similar with the model from Nvidia paper: Nvidia_X End-to-End Deep Learning for Self-Driving Cars
@@ -208,10 +211,4 @@ hist = model.fit_generator(generator_(train_images, train_steers), samples_per_e
 model.save('model.h5')
 with open('./model.json' ,'w') as f:
     f.write(model.to_json())
-
-
-# In[ ]:
-
-
-
 
