@@ -85,6 +85,8 @@ The final model architecture (model.py lines 179-192) consisted of a convolution
 
 ![Model architecture][image1]
 
+image credit: [Nvidia End-to-End Deep Learning for Self-Driving Cars](https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/)
+
 #### 8. Creation of the Training Set & Training Process
 
 I used both the data provided by Udacity and the data of my own driving in the simulator. Here is an example image of center lane driving:
