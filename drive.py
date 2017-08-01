@@ -12,6 +12,7 @@ from PIL import Image
 from flask import Flask
 from io import BytesIO
 
+
 from keras.models import load_model
 import h5py
 from keras import __version__ as keras_version
@@ -22,12 +23,32 @@ model = None
 prev_image_array = None
 
 import cv2
-def preprocess_img(image):
-    # Crop 
-    img = image[50:, :, :]
-    # Resize to 200*66
-    img = cv2.resize(img, (200, 66))
+def preprocess_img(image, resize = (200, 66), istraining = False):
+    '''
+    Preprocessing consists of four steps in training mode (three in inference mode). 
+    step 1: crop the image
+    step 2: resize the image 
+    step 3: convert the image to HSV
+    step 4: randomly adjust the brightness (only in training mode)
+    -------
+    Params:
+    image: RGB image; resize: new size of the image; istraining: boolean used to control the mode
+    ------
+    return: an resized HSV image (brightness might also be adjusted if in training mode)
+    '''
+    # Crop the top 50 pixes and bottom 20 pixes to increase the signal noise ratio
+    img = image[50:-20, :, :]
+    # Resize to 200*66 to comform with the Nvidia end-to-end model input size
+    img = cv2.resize(img, resize)
+    # Convert to HSV
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+    #In training mode, adjust the brightness randomly
+    if istraining is True:
+        v = img[:,:,2].astype(np.float32)
+        v *= np.random.choice(np.arange(0.5, 1.5, 0.1))
+        img[:,:,2] = v.astype(np.uint8)
     return img
+
 class SimplePIController:
     def __init__(self, Kp, Ki):
         self.Kp = Kp
@@ -50,7 +71,7 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 9
+set_speed = 15
 controller.set_desired(set_speed)
 
 
